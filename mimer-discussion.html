@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>my mimer discussion page/Jing Li</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+</head>
+<body>
+<h1><center>My Mimer Discussion</center></h1>
+<p>I'm using Mac, since I can't use batch files, some of my steps might be different than what we have in the instruction sessions.</p>
+
+<b>1. Step One:</b> 
+<p>I put my personal data file mimer-data.xyz file under the directory MyWebServer, which contains MyWebServer java file. And also I've made some changes to shim.bat file using shell script (bash) for Mac. In the shim.sh file, I added two echo command and cd to my current directory command to tell the terminal to print out two lines and go to my current directory. Also in my previous written MyWebServer.java file, I added a situation where when the browser asked for .xyz file, it would change the file-type to application/xyz.</p>
+<p>Besides, I'm using Mac, I didn't use the register way to associate my .xyz file with the shim.sh file. Instead, I used Applescript in the built-in application called "Automator". I created an application connecting to the shim.sh file, and saved the application using name shimApplication. Then I changed the "open with" session for my .xyz file in the settings to shimApplication and apply to all. In this way when I am trying to open the .xyz file in the browser, for example, through the mimer-call.html, the browser would automatically generate a popup window asking me whether to open with shimApplication, and after I chose yes, it would open the terminal, and invoke the shim.sh file. That's how I associated the .xyz file with shim.sh file.</p>
+
+<b>2. Step Two:</b> 
+<p>I saved the Handler.java which is given us, put it under MyWebServer directory. And also I put the environment variable into the shim.sh file so that the shim.sh can invoke the Handler to execute. I typed "sh shim.sh mimer-data.xyz" on the console to test it, and in the terminal console, the name of the file along with the file content are printed. If I started from the mimer-call.html, after I pressed the mimer-data.xyz, as showed in the previous stop, a pop up would show up, and then the shim.sh got executed, the Handler execution file got invoked together with the environment varaible. At the end, you can see the file name and content got printed on the console which is invoked by the application I made.</p>
+
+<b>3. Step Three:</b> 
+<p>I downloaded those two jar files for xstream and xml, and put them under the right place, which is under javaVirtualMachine/jdk/lib. I saved BCClient.java to MyWebServer directory, and wrote two .sh files according to relevant batch files to add in environment variables of paths for those two libraries I just downloaded. Using those two .sh files to compile and run the BCClient would generate an output on the BCClient console, which contains both serialized and deserialized content of the file. However, because we haven't made any connection with any server, there's a connection error. So I commented out those lines relevant to connections, and made BCClient run by itself. This way, the BCClient could run successfully, and whenever I typed in some messages on the BCClient console, it would print both serialized and deserialized messages on the console and also it would write the messages you typed into a file as well.</p>
+
+<b>4. Step Four:</b> 
+<p>I used the code in the BC-looper-code-Snippet and found a way to add it into MyWebServer.java file. In this way, MyWebServer would open up a back channel communication tread waiting for the BCClient to connect to it. Whenever there's a connection, a new BCWorker thread would be invoked and be used to handle each client. The main back channel communication thread would run asychronously. Also I wrote two .sh files according to relevant batch files to add in environment variables of paths for those two libraries I just downloaded. And these two sh file are used to compile and run the new MyWebServer program. After MyWebServer can deal with the back channel communication, I uncommented those lines on BCClient and made it be able to talk with a server again. In this way, we can connet MyWebServer with BCClient, and any message I typed in BCClient, the client would automatically send the serialized messages to the server and ther server would desirialize the messages first and print both the serialized and deserialized messages on the server console.</p>
+
+<b>5. Step Five:</b> 
+<p>Last step is to combine BCClient program with Handler program to BCHandler.java. In this way, after the shim.sh get invoked, instead of using Handler, we can use BCHandler to marshal the content of the file to xml format, and also the BCHandler can connet with MyWebServer through the back channel thread, which can then send the serialized xml messages to the server, and the server can deserialize the messages and finally get the content. I added the environment variables of those two jar file into shim.sh as well, becasue we need to use that variable to run BCHandler execution file. And also I changed Hnadler to BCHnadler in shim.sh file. After all these being done, when we ask for a .xyz file on the webpage, the pop up window would show up, and invoke the shim.sh file which would invoke the BCHandler as well, which would connetc to the server through back channel thread, marshal the data and send the marshaled data to the server. The server would then deserialize the marshaled data and print the content of the file on the server console.</p>
+
+</body>
+</html>
